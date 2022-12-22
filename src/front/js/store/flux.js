@@ -1,54 +1,140 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
+  return {
+    store: {
+      token: localStorage.getItem("token") || "",
+      urlBase:
+        "https://3001-4geeksacade-reactflaskh-0a2p9dke7ok.ws-us80.gitpod.io",
+        
+    
+      user: [],
+      game: [],
+      verify: "123456789"
+    },
+    actions: {
+      userRegister: async (user) => {
+        console.log(user)
+        let store = getStore();
+        try {
+          let response = await fetch(`${store.urlBase}/api/user`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+          });
+          if (response.ok) {
+            return true;
+          }
+          return false;
+        } catch (error) {
+          console.log(`Error: ${error}`);
+        }
+      },
+      login: async (user) =>  {
+        let store = getStore()
+        try {
+          let response = await fetch(`${store.urlBase}/api/login`, {
+            method: 'POST',
+            headers: {
+              'Content-Type':'application/json',
+            },
+            body: JSON.stringify(user)
+          });
+          console.log(response)
+          if (response.ok){
+            let data = await response.json();
+            setStore({token: data.token});
+            localStorage.setItem('token',data.token);
+            return true;
+          }
+          return false;
+        } catch (error) {
+          console.log(`Error: ${error}`);
+          
+        }
+  
+      },
+      gameRegister: async (game)=>{
+        let store = getStore();
+          try {
+            let response = await fetch(`${store.urlBase}/api/game`, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: {
+                'Content-Type':'application/json',
+                'Authorization': `Bearer  ${store.token}`,
+              },
+              body: JSON.stringify(game)
+            });
 
-			getMessage: async () => {
-				try{
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				}catch(error){
-					console.log("Error loading message from backend", error)
-				}
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+            console.log(response)
+            if (response.ok){
+              return true;
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
-			}
-		}
-	};
+            }
+            return false;
+          
+        } catch (error) {
+          console.log(`Error: ${error}`);
+          
+        }
+      },
+      getGame: async () =>{
+        let store = getStore();
+        try {
+          let response = await fetch(`${store.urlBase}/api/game`);
+          let data = await response.json();
+          if (response.ok){
+            setStore({
+              ...store, 
+              game: data
+            })
+          }
+          
+        } catch (error) {
+          console.log(`Error:${error}`);
+        }
+      },
+      updateGame: async (game) => {
+        let store = getStore()
+        try {
+          let response = await fetch(`${store.urlBase}/api/game/${game}`,{
+            method:'PUT', 
+            headers: {
+              'Content-Type':'aplication/json',
+            }, 
+            body: JSON.stringify(game)
+          });
+          if (response.ok){
+            return true
+          }
+          return false
+          
+        } catch (error) {
+          console.log(`Error:${error}`)
+        }
+      },
+      deleteGame: async (game)=>{
+        let store = getStore()
+        console.log()
+        try {
+          let response = await fetch(`${store.urlBase}/api/game/${game}`,{
+            method: 'DELETE',
+            headers:{
+              "Content-Type": "application/json",
+            }
+          });
+          if (response.ok){
+            return true
+          }
+          return false 
+          
+        } catch (error) {
+          console.log(`Error: ${error}`)
+        }
+      }
+    },
+  };
 };
 
 export default getState;

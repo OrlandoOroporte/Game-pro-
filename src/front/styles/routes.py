@@ -113,7 +113,7 @@ def delete_game(game_id=None):
     except Exception as error:
         print(error.args)
         db.session.rollback()
-        return jsonify({"message":f"Error:{error.args}"}),500
+        return jsonify({"message":f"Error:{error.args}"}),50000
 
     return jsonify([]),405
 
