@@ -8,12 +8,12 @@ export const Footer = () => (
 		<div className="col-sm-12 col-md-6">
 		  <h6>Sobre nosotros</h6>
 		  <p className="text-justify">
-			Todos los juegos que necitas lo encuentras aqui.
+		  Todos los juegos que necesitas lo encuentras aquí
 		  </p>
 		</div>
 
 		<div className="col-xs-6 col-md-3">
-		  <h6>Categorias</h6>
+		  <h6>Categorías</h6>
 		  <ul className="footer-links">
 			<li>
 			  Arcade
@@ -25,7 +25,7 @@ export const Footer = () => (
 			  Roles 
 			</li>
 			<li>
-			  explorer 
+			  Explorer 
 			</li>
 		  </ul>
 		</div>

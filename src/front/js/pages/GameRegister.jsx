@@ -95,7 +95,7 @@ export const GameRegister = () => {
                         <label htmlFor="fname">Precio :</label>
                         <input
                           id="fname"
-                          type="text"
+                          type="number"
                           className="form-control"
                           name="precio"
                           value={gameRegisters.precio}

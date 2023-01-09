@@ -3,8 +3,8 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       token: localStorage.getItem("token") || "",
       urlBase:
-        "https://3001-4geeksacade-reactflaskh-0a2p9dke7ok.ws-us80.gitpod.io",
-        
+        "https://3001-orlandooroporte-gamepro-xywouziakxn.ws-us81.gitpod.io",
+       
     
       user: [],
       game: [],
@@ -59,7 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           try {
             let response = await fetch(`${store.urlBase}/api/game`, {
               method: 'POST',
-              mode: 'no-cors',
+              // mode: 'no-cors',
               headers: {
                 'Content-Type':'application/json',
                 'Authorization': `Bearer  ${store.token}`,

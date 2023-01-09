@@ -77,7 +77,7 @@ def add_game():
         user_id = get_jwt_identity()
         print(user_id)
 
-        if len(image) < 1 or len(name) < 1 or precio < 1 or len(descripcion) < 1 or len(cantidad) < 1:
+        if len(image) < 1 or len(name) < 1  or len(descripcion) < 1 or len(cantidad) < 1:
             return jsonify('Debe cargar todos los campos'), 400
         else:
             print(f'Se guardo el juego')
